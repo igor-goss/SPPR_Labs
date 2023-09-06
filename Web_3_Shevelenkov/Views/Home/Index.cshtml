@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<main class="container">
+        <h1>Лабораторная работа 1</h1>
+        <h2>Список</h2>
+        <ol type ="A">
+            <li>Элемент 1 списка</li>
+            <li>Элемент 2 списка</li>
+        </ol>
+        <hr>
+        <h2>Форма</h2>
+        <form class="row-g3" method="get">
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck" name="RememberOption">
+                    <label class="form-check-label" for="gridCheck">
+                        Remember me
+                    </label>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck" name="TermsOfServiceAgreement" required>
+                    <label class="form-check-label" for="gridCheck">
+                        I agree with Terms of Service
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <h3>Choose your role</h3>
+                <input type="radio" name="role" value="Client" />
+                <label for="Client">Client</label>
+                <input type="radio" name="role" value="Business" />
+                <label for="Business">Business</label> 
+                <input type="radio" name="role" value="Admin" />
+                <label for="Admin">Admin</label>
+            </div>
+
+            <div class="row mb-3">
+                <h3>Log In</h3>
+                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="inputEmail" name="emailInput">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="inputPassword" name="passwordInput">
+                </div>
+            </div>
+
+            
+
+            <div class="form-example">
+                <input type="submit" value="Log In" />
+            </div>
+
+            <br />
+
+        </form>
+</main>
