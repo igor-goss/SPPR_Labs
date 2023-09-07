@@ -1,12 +1,17 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
+@model Web_3_Shevelenkov.Controllers.Home
 <main class="container">
-        <h1>Лабораторная работа 1</h1>
+        <h1>@ViewData["name"]</h1>
         <h2>Список</h2>
         <ol type ="A">
-            <li>Элемент 1 списка</li>
-            <li>Элемент 2 списка</li>
+            @for (int i = 1; i < 4; i++)
+            {
+            <li>
+                @($"Item {i}")
+            </li>
+        }
         </ol>
         <hr>
         <h2>Форма</h2>
@@ -36,6 +41,13 @@
                 <label for="Business">Business</label> 
                 <input type="radio" name="role" value="Admin" />
                 <label for="Admin">Admin</label>
+            </div>
+            
+            <div>
+                <label asp-for="Name"></label>
+                <select asp-for="Name" asp-items="ViewBag.SelectOptions" name="selector">
+
+                </select>
             </div>
 
             <div class="row mb-3">
