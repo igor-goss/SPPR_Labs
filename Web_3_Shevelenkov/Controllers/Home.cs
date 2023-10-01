@@ -16,7 +16,7 @@ namespace Web_3_Shevelenkov.Controllers
                 new ListDemo(3, "Item 3")
             };
 
-            SelectList options = new SelectList(listOptions);
+            SelectList options = new SelectList(listOptions, "Id", "Name");
             ViewBag.SelectOptions = options;
 
             return View();

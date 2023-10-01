@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Web_3_Shevelenkov.Domain.Entities.Tank>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    var request = ViewContext.HttpContext.Request;
+    var returnUrl = request.Path + request.QueryString.ToUriComponent();
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        Тип техники
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" asp-controller="Product" asp-action="Index" asp-route-categoryName="heavytanks">Тяжёлые танки</a></li>
+        <li><a class="dropdown-item" asp-controller="Product" asp-action="Index" asp-route-categoryName="mediumtanks">Средние танки</a></li>
+        <li><a class="dropdown-item" asp-controller="Product" asp-action="Index" asp-route-categoryName="lighttanks">Лёгкие танки</a></li>
+        <li><a class="dropdown-item" asp-controller="Product" asp-action="Index" asp-route-categoryName="ptsau">ПТ-САУ</a></li>
+        <li><a class="dropdown-item" asp-controller="Product" asp-action="Index" asp-route-categoryName="">Вся техника</a></li>
+    </ul>
+</div>
+
+<div class="container">
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img src="@item.Path" class="card-img-top" alt="Tank Image">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text">@item.Description</p>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Price) золота</p>
+                        <a asp-controller="Cart" asp-action="Add" asp-route-id="@item.Id" asp-route-returnurl="@returnUrl" class="btn btn-primary">Add to cart</a>
+                </div>
+            </div>
+        </div>
+    }   
+    </div>
+</div>
+

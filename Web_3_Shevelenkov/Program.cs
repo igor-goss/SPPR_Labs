@@ -1,7 +1,12 @@
+using Web_3_Shevelenkov.Services.TankService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSingleton<ITankTypeService, MemoryTankTypeService>();
+builder.Services.AddScoped<ITankService, MemoryTankService>();
 
 var app = builder.Build();
 
@@ -13,12 +18,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
