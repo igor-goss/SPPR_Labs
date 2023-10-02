@@ -40,11 +40,35 @@
                     <h5 class="card-title">@item.Name</h5>
                     <p class="card-text">@item.Description</p>
                     <p class="card-text">@Html.DisplayFor(modelItem => item.Price) золота</p>
-                        <a asp-controller="Cart" asp-action="Add" asp-route-id="@item.Id" asp-route-returnurl="@returnUrl" class="btn btn-primary">Add to cart</a>
+                    <a asp-controller="Cart" asp-action="Add" asp-route-id="@item.Id" asp-route-returnurl="@returnUrl" class="btn btn-primary">Add to cart</a>
                 </div>
             </div>
         </div>
     }   
     </div>
 </div>
+
+@{
+    string? category = request.RouteValues["categoryName"]?.ToString();
+}
+
+<nav aria-label="...">
+    <ul class="pagination">
+        <li class="page-item disabled"> 
+            <span class="page-link">Previous</span>
+        </li>
+        <li class="page-item">
+            <a class="page-link" asp-action="Index" asp-route-categoryName="@category" asp-route-pageNo=1>1</a>
+        </li>
+        <li class="page-item" aria-current="page">
+            <a class="page-link" asp-action="Index" asp-route-categoryName="@category" asp-route-pageNo=2>2</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="#">3</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+        </li>
+    </ul>
+</nav>
 
