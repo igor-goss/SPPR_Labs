@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Drawing.Printing;
 using Web_3_Shevelenkov.Services.TankService;
 
 namespace Web_3_Shevelenkov.Controllers
@@ -14,11 +15,13 @@ namespace Web_3_Shevelenkov.Controllers
             _tankTypeService = tankTypeService;
         }   
 
-        public IActionResult Index(string? categoryName)
+        public IActionResult Index(string? categoryName, int pageNo = 1)
         {
+           
             var productResponse =
-                _tankService.GetTankListAsync(categoryName);
+                _tankService.GetTankListAsync(categoryName, pageNo);
 
+            
             return View(productResponse.Result.Data.Items);
         }
     }
