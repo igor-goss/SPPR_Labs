@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Printing;
+using Web_3_Shevelenkov.Domain.Entities;
+using Web_3_Shevelenkov.Domain.Models;
 using Web_3_Shevelenkov.Services.TankService;
 
 namespace Web_3_Shevelenkov.Controllers
@@ -22,7 +24,12 @@ namespace Web_3_Shevelenkov.Controllers
                 _tankService.GetTankListAsync(categoryName, pageNo);
 
             
-            return View(productResponse.Result.Data.Items);
+            return View(new ProductListModel<Tank> 
+            {
+                Items = productResponse.Result.Data.Items,
+                CurrentPage = pageNo,
+                TotalPages = productResponse.Result.Data.TotalPages
+            });
         }
     }
 }

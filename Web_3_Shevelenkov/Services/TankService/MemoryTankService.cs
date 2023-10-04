@@ -42,7 +42,12 @@ namespace Web_3_Shevelenkov.Services.TankService
             ProductListModel<Tank> result;
             if (categoryNormalizedName == null)
             {
-                result = new ProductListModel<Tank> { Items = _items.Skip((pageNo - 1) * itemsPerPage).Take(itemsPerPage).ToList(), CurrentPage = pageNo };
+                result = new ProductListModel<Tank> 
+                {
+                    Items = _items.Skip((pageNo - 1) * itemsPerPage).Take(itemsPerPage).ToList(), 
+                    CurrentPage = pageNo, 
+                    TotalPages = totalPages
+                };
             }
             else
             {
@@ -51,11 +56,15 @@ namespace Web_3_Shevelenkov.Services.TankService
                 result = new ProductListModel<Tank>
                 {
                     Items = _items.Where(t => t.Type.Id == tankType.Id).Skip((pageNo - 1) * itemsPerPage).Take(itemsPerPage).ToList(),
-                    CurrentPage = pageNo
+                    CurrentPage = pageNo,
+                    TotalPages = totalPages
                 };
             }
 
-            ResponseData<ProductListModel<Tank>> response = new ResponseData<ProductListModel<Tank>> { Data = result, Success = true };
+            ResponseData<ProductListModel<Tank>> response = new ResponseData<ProductListModel<Tank>> 
+            { 
+                Data = result, Success = true 
+            };
 
             return Task.FromResult(response);
         }
