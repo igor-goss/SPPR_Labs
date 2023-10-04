@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Web_3_Shevelenkov.Domain.Entities.Tank>
+﻿@using Web_3_Shevelenkov.Domain.Models
+
+@model ProductListModel<Tank>
 
 @{
     ViewData["Title"] = "Index";
@@ -31,7 +33,7 @@
 <div class="container">
 
     <div class="row">
-        @foreach (var item in Model)
+        @foreach (var item in Model.Items)
         {
         <div class="col-md-4">
             <div class="card" style="width: 18rem;">
@@ -52,10 +54,19 @@
     string? category = request.RouteValues["categoryName"]?.ToString();
 }
 
+@{
+    int prev = Model.CurrentPage == 1
+        ? 1
+        : Model.CurrentPage - 1;
+    int next = Model.CurrentPage == Model.TotalPages
+    ? Model.TotalPages
+    : Model.CurrentPage + 1;
+}
+
 <nav aria-label="...">
     <ul class="pagination">
-        <li class="page-item disabled"> 
-            <span class="page-link">Previous</span>
+        <li class="page-item"> 
+            <a class="page-link" asp-action="Index" asp-route-categoryName="@category" asp-route-pageNo=@prev>Previous</a>
         </li>
         <li class="page-item">
             <a class="page-link" asp-action="Index" asp-route-categoryName="@category" asp-route-pageNo=1>1</a>
@@ -64,10 +75,10 @@
             <a class="page-link" asp-action="Index" asp-route-categoryName="@category" asp-route-pageNo=2>2</a>
         </li>
         <li class="page-item">
-            <a class="page-link" href="#">3</a>
+            <a class="page-link" asp-action="Index" asp-route-categoryName="@category" asp-route-pageNo=3>3</a>
         </li>
         <li class="page-item">
-            <a class="page-link" href="#">Next</a>
+            <a class="page-link" asp-action="Index" asp-route-categoryName="@category" asp-route-pageNo=@next>Next</a>
         </li>
     </ul>
 </nav>

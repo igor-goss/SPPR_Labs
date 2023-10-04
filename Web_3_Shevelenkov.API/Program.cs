@@ -43,4 +43,8 @@ app.UseStaticFiles();
 
 app.MapControllers();
 
+
+await DbInitializer.SeedData(app);
+
+
 app.Run();
