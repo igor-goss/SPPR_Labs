@@ -1,7 +1,7 @@
 ﻿using Web_3_Shevelenkov.Domain.Models;
 using Web_3_Shevelenkov.Domain.Entities;
 
-namespace Web_3_Shevelenkov.Services.TankService
+namespace Web_3_Shevelenkov.Services.Interfaces
 {
     public interface ITankService
     {
@@ -10,7 +10,7 @@ namespace Web_3_Shevelenkov.Services.TankService
         public Task UpdateTankAsync(int id, Tank tank, IFormFile? formFile);
         public Task DeleteTankAsync(int id);
         public Task<ResponseData<Tank>> CreateProductAsync(Tank tank, IFormFile? formFile);
-
+        public Task SaveImageAsync(int id, IFormFile image);
 
     }
 }

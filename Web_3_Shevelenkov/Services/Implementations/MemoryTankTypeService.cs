@@ -1,5 +1,6 @@
 ﻿using Web_3_Shevelenkov.Domain.Entities;
 using Web_3_Shevelenkov.Domain.Models;
+using Web_3_Shevelenkov.Services.Interfaces;
 
 namespace Web_3_Shevelenkov.Services.TankService
 {

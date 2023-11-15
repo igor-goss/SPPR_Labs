@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web_3_Shevelenkov.Domain.Entities;
 using Web_3_Shevelenkov.Domain.Models;
+using Web_3_Shevelenkov.Services.Interfaces;
 
-namespace Web_3_Shevelenkov.Services.TankService
+namespace Web_3_Shevelenkov.Services.Implementations
 {
     public class MemoryTankService : ITankService
     {
@@ -37,15 +38,15 @@ namespace Web_3_Shevelenkov.Services.TankService
             var paginationInfo = GetPaginationInfo();
             var itemsPerPage = paginationInfo["itemsPerPage"];
             var totalPages = paginationInfo["totalPages"];
-            
+
 
             ProductListModel<Tank> result;
             if (categoryNormalizedName == null)
             {
-                result = new ProductListModel<Tank> 
+                result = new ProductListModel<Tank>
                 {
-                    Items = _items.Skip((pageNo - 1) * itemsPerPage).Take(itemsPerPage).ToList(), 
-                    CurrentPage = pageNo, 
+                    Items = _items.Skip((pageNo - 1) * itemsPerPage).Take(itemsPerPage).ToList(),
+                    CurrentPage = pageNo,
                     TotalPages = totalPages
                 };
             }
@@ -61,9 +62,10 @@ namespace Web_3_Shevelenkov.Services.TankService
                 };
             }
 
-            ResponseData<ProductListModel<Tank>> response = new ResponseData<ProductListModel<Tank>> 
-            { 
-                Data = result, Success = true 
+            ResponseData<ProductListModel<Tank>> response = new ResponseData<ProductListModel<Tank>>
+            {
+                Data = result,
+                Success = true
             };
 
             return Task.FromResult(response);
@@ -73,7 +75,7 @@ namespace Web_3_Shevelenkov.Services.TankService
         {
             var itemsPerPage = _config.GetValue<int>("ItemsPerPage");
             var totalPages = _items.Count() % itemsPerPage == 0 ? _items.Count() / itemsPerPage : _items.Count() / itemsPerPage + 1;
-            return new Dictionary<string, int>() { { "itemsPerPage", itemsPerPage }, { "totalPages", totalPages} };
+            return new Dictionary<string, int>() { { "itemsPerPage", itemsPerPage }, { "totalPages", totalPages } };
         }
 
         public Task UpdateTankAsync(int id, Tank tank, IFormFile? formFile)
@@ -122,6 +124,6 @@ namespace Web_3_Shevelenkov.Services.TankService
                     Type = _service.GetTankTypeListAsync().Result.Data[0],
                     Price = 25000, Path = "/images/Concept.png" }
         };
+        }
     }
-}
 }

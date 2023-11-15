@@ -1,12 +1,32 @@
-using Web_3_Shevelenkov.Services.TankService;
+using Web_3_Shevelenkov;
+using Web_3_Shevelenkov.Services.Implementations;
+using Web_3_Shevelenkov.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<ITankTypeService, MemoryTankTypeService>();
-builder.Services.AddScoped<ITankService, MemoryTankService>();
+builder.Services.AddRazorPages();
+
+var configBuilder = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json");
+
+IConfiguration _configuration = configBuilder.Build();
+
+UriData UriData = _configuration.GetSection("UriData").Get<UriData>();
+
+
+builder.Services.AddScoped<ITankTypeService, ApiTankTypeService>();
+builder.Services.AddScoped<ITankService, ApiTankService>();
+
+builder.Services
+    .AddHttpClient<ITankService, ApiTankService>(opt =>
+    opt.BaseAddress = new Uri(UriData.ApiUri));
+
+builder.Services
+    .AddHttpClient<ITankTypeService, ApiTankTypeService>(opt =>
+    opt.BaseAddress = new Uri(UriData.ApiUri));
 
 var app = builder.Build();
 
@@ -26,9 +46,18 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "areaRoute",
+        pattern: "{area:exists}/{controller=Tanks}/{action=Index}");
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+
+});
+
+app.MapRazorPages();
 
 app.Run();

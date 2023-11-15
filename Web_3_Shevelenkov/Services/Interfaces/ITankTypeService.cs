@@ -1,7 +1,7 @@
 ﻿using Web_3_Shevelenkov.Domain.Models;
 using Web_3_Shevelenkov.Domain.Entities;
 
-namespace Web_3_Shevelenkov.Services.TankService
+namespace Web_3_Shevelenkov.Services.Interfaces
 {
     public interface ITankTypeService
     {

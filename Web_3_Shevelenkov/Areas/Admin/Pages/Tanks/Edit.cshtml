@@ -1,0 +1,56 @@
+﻿@page
+@model Web_3_Shevelenkov.Areas.Admin.Pages.Tanks.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Tank</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Tank.Id" />
+            <div class="form-group">
+                <label asp-for="Tank.Name" class="control-label"></label>
+                <input asp-for="Tank.Name" class="form-control" />
+                <span asp-validation-for="Tank.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tank.Description" class="control-label"></label>
+                <input asp-for="Tank.Description" class="form-control" />
+                <span asp-validation-for="Tank.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tank.Price" class="control-label"></label>
+                <input asp-for="Tank.Price" class="form-control" />
+                <span asp-validation-for="Tank.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tank.Path" class="control-label"></label>
+                <input asp-for="Tank.Path" class="form-control" />
+                <span asp-validation-for="Tank.Path" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tank.TypeId" class="control-label"></label>
+                <input asp-for="Tank.TypeId" class="form-control" />
+                <span asp-validation-for="Tank.TypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

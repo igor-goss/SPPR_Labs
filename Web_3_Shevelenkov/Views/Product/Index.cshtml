@@ -13,9 +13,6 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 
 <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -51,7 +48,7 @@
 </div>
 
 @{
-    string? category = request.RouteValues["categoryName"]?.ToString();
+    string? category = request.Query["categoryName"].ToString();
 }
 
 @{
@@ -66,13 +63,13 @@
 <nav aria-label="...">
     <ul class="pagination">
         <li class="page-item"> 
-            <a class="page-link" asp-action="Index" asp-route-categoryName="@category" asp-route-pageNo=@prev>Previous</a>
+            <a class="page-link" asp-route-categoryName="@category" asp-route-pageNo=@prev>Previous</a>
         </li>
         <li class="page-item">
-            <a class="page-link" asp-action="Index" asp-route-categoryName="@category" asp-route-pageNo=1>1</a>
+            <a class="page-link"  asp-route-categoryName="@category" asp-route-pageNo=1>1</a>
         </li>
-        <li class="page-item" aria-current="page">
-            <a class="page-link" asp-action="Index" asp-route-categoryName="@category" asp-route-pageNo=2>2</a>
+        <li class="page-item">
+            <a class="page-link" asp-route-categoryName="@category" asp-route-pageNo=2>2</a>
         </li>
         <li class="page-item">
             <a class="page-link" asp-action="Index" asp-route-categoryName="@category" asp-route-pageNo=3>3</a>

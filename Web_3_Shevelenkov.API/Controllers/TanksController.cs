@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web_3_Shevelenkov.API.Data;
+using Web_3_Shevelenkov.API.Services.Interfaces;
 using Web_3_Shevelenkov.Domain.Entities;
+using Web_3_Shevelenkov.Domain.Models;
 
 namespace Web_3_Shevelenkov.API.Controllers
 {
@@ -14,40 +15,32 @@ namespace Web_3_Shevelenkov.API.Controllers
     [ApiController]
     public class TanksController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly ITankService _tankService;
+        private readonly string _imagesPath;
+        private readonly string _appUri;
 
-        public TanksController(AppDbContext context)
+        public TanksController(ITankService service,
+                IWebHostEnvironment env,
+                IConfiguration configuration)
         {
-            _context = context;
+            _tankService = service;
+            _imagesPath = Path.Combine(env.WebRootPath, "Images");
+            _appUri = configuration.GetSection("appUri").Value;
         }
 
         // GET: api/Tanks
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Tank>>> GetTanks()
+        [Route("page{pageNo:int}pageSize{pageSize:int}")]
+        public async Task<ActionResult<IEnumerable<Tank>>> GetTanks(string? tankType, int pageNo = 1, int pageSize = 3)
         {
-          if (_context.Tanks == null)
-          {
-              return NotFound();
-          }
-            return await _context.Tanks.ToListAsync();
+            return Ok(await _tankService.GetTankListAsync(tankType, pageNo, pageSize));
         }
 
         // GET: api/Tanks/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Tank>> GetTank(int id)
         {
-          if (_context.Tanks == null)
-          {
-              return NotFound();
-          }
-            var tank = await _context.Tanks.FindAsync(id);
-
-            if (tank == null)
-            {
-                return NotFound();
-            }
-
-            return tank;
+            return Ok(await _tankService.GetTankByIdAsync(id));
         }
 
         // PUT: api/Tanks/5
@@ -55,29 +48,7 @@ namespace Web_3_Shevelenkov.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTank(int id, Tank tank)
         {
-            if (id != tank.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(tank).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TankExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await _tankService.UpdateTankAsync(id, tank);
             return NoContent();
         }
 
@@ -86,39 +57,28 @@ namespace Web_3_Shevelenkov.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Tank>> PostTank(Tank tank)
         {
-          if (_context.Tanks == null)
-          {
-              return Problem("Entity set 'AppDbContext.Tanks'  is null.");
-          }
-            _context.Tanks.Add(tank);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTank", new { id = tank.Id }, tank);
+            return Ok(/*await _tankService.CreateTankAsync(tank, formFile)*/);
         }
 
         // DELETE: api/Tanks/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTank(int id)
         {
-            if (_context.Tanks == null)
-            {
-                return NotFound();
-            }
-            var tank = await _context.Tanks.FindAsync(id);
-            if (tank == null)
-            {
-                return NotFound();
-            }
-
-            _context.Tanks.Remove(tank);
-            await _context.SaveChangesAsync();
+            await _tankService.DeleteTankAsync(id);
 
             return NoContent();
         }
 
-        private bool TankExists(int id)
-        {
-            return (_context.Tanks?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+        // POST: api/Tanks/5
+        //[HttpPost("{id}")]
+        //public async Task<ActionResult<ResponseData<string>>> PostImage(int id, IFormFile formFile)
+        //{
+        //    var response = await _tankService.SaveImageAsync(id, formFile);
+        //    if (response.Success)
+        //    {
+        //        return Ok(response);
+        //    }
+        //    return NotFound(response);
+        //}
     }
 }
